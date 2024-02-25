@@ -19,14 +19,7 @@ android {
     }
 
     buildTypes {
-        buildTypes.forEach {
-            it.isMinifyEnabled = false
-        }
-        debug {
-            isJniDebuggable = true
-        }
         release {
-            isJniDebuggable = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -63,7 +56,7 @@ val getVersionName = { ->
 }
 
 val getArtificatId = { ->
-    "utils"
+    "util"
 }
 
 publishing {
