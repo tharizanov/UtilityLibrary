@@ -1,7 +1,11 @@
+import java.io.FileInputStream
+import java.util.Properties
+
 plugins {
     id("com.android.library")
     id("kotlin-android")
     id("kotlin-kapt")
+    id("maven-publish")
     id("org.jetbrains.kotlin.android")
 }
 
@@ -49,4 +53,38 @@ dependencies {
     implementation("androidx.navigation:navigation-fragment-ktx:2.7.7")
     implementation("androidx.recyclerview:recyclerview:1.3.2")
     implementation("org.jetbrains.kotlin:kotlin-reflect:1.9.0")
+}
+
+val githubProperties = Properties()
+githubProperties.load(FileInputStream(rootProject.file("github.properties")))
+
+val getVersionName = { ->
+    "1.0.0"
+}
+
+val getArtificatId = { ->
+    "utils"
+}
+
+publishing {
+    publications {
+        create<MavenPublication>("maven") {
+            groupId = "com.github.tharizanov"
+            artifactId = getArtificatId()
+            version = getVersionName()
+            artifact("$buildDir/outputs/aar/${getArtificatId()}-release.aar")
+        }
+    }
+
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/tharizanov/UtilityLibrary")
+
+            credentials {
+                username = (githubProperties["gpr.usr"] ?: System.getenv("GPR_USER")).toString()
+                password = (githubProperties["gpr.key"] ?: System.getenv("GPR_API_KEY")).toString()
+            }
+        }
+    }
 }
