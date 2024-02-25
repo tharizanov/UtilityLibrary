@@ -1,26 +1,27 @@
 package uk.co.accsoft.util
 
 import android.util.Log
+import uk.co.accsoft.util.extensions.TAG
 import uk.co.accsoft.util.extensions.toReadableString
 
 /**
  * Custom logger class, which only posts logs to [Log] if the current build variant is DEBUG.
  */
 @Suppress("unused")
-object EzLog {
+object AzLog {
 
     private const val DEFAULT_MESSAGE_SEPARATOR = ", "
     private const val EMPTY_MESSAGE_SUBSTITUTE = "_"
     private const val ERROR_CODE = -1
 
-    private val TAG = javaClass.simpleName
+    private val LOG_TAG = TAG
 
     var isBuildConfigDebug = false
 
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    //////////////  CUSTOMISATIONS SECTION  ////////////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////  CUSTOMISATIONS SECTION  ////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     private var includeFullStackTrace = false
     private var separator = DEFAULT_MESSAGE_SEPARATOR
@@ -30,7 +31,7 @@ object EzLog {
      * Print the full stack trace for the next log message only.
      */
     @JvmStatic
-    fun fullStackTrace(): EzLog {
+    fun fullStackTrace(): AzLog {
         if (isBuildConfigDebug) {
             includeFullStackTrace = true
         }
@@ -41,7 +42,7 @@ object EzLog {
      * Print the next log message (only) using a custom separator between the objects.
      */
     @JvmStatic
-    fun separator(separator: String): EzLog {
+    fun separator(separator: String): AzLog {
         if (isBuildConfigDebug && this.separator != separator) {
             this.separator = separator
         }
@@ -52,7 +53,7 @@ object EzLog {
      * Print the next log message (only) with a title at the beginning.
      */
     @JvmStatic
-    fun title(title: String): EzLog {
+    fun title(title: String): AzLog {
         if (isBuildConfigDebug) {
             this.title = title
         }
@@ -60,9 +61,9 @@ object EzLog {
     }
 
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    /////////////  LOGS SECTION  ///////////////////////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////  LOGS SECTION  ///////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     /**
      * VERBOSE level log.
@@ -72,7 +73,7 @@ object EzLog {
     @JvmStatic
     fun verbose(vararg objects: Any?) {
         if (isBuildConfigDebug)
-            Log.v(TAG, buildMessage(objects))
+            Log.v(LOG_TAG, buildMessage(objects))
     }
 
     /**
@@ -83,7 +84,7 @@ object EzLog {
     @JvmStatic
     fun debug(vararg objects: Any?) {
         if (isBuildConfigDebug)
-            Log.d(TAG, buildMessage(objects))
+            Log.d(LOG_TAG, buildMessage(objects))
     }
 
     /**
@@ -94,7 +95,7 @@ object EzLog {
     @JvmStatic
     fun info(vararg objects: Any?) {
         if (isBuildConfigDebug)
-            Log.i(TAG, buildMessage(objects))
+            Log.i(LOG_TAG, buildMessage(objects))
     }
 
     /**
@@ -105,7 +106,7 @@ object EzLog {
     @JvmStatic
     fun warning(vararg objects: Any?) {
         if (isBuildConfigDebug)
-            Log.w(TAG, buildMessage(objects))
+            Log.w(LOG_TAG, buildMessage(objects))
     }
 
     /**
@@ -116,7 +117,7 @@ object EzLog {
     @JvmStatic
     fun error(vararg objects: Any?) {
         if (isBuildConfigDebug)
-            Log.e(TAG, buildMessage(objects))
+            Log.e(LOG_TAG, buildMessage(objects))
     }
 
     /**
@@ -127,13 +128,13 @@ object EzLog {
     @JvmStatic
     fun assert(vararg objects: Any?) {
         if (isBuildConfigDebug)
-            Log.wtf(TAG, buildMessage(objects))
+            Log.wtf(LOG_TAG, buildMessage(objects))
     }
 
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    ///////////////  MESSAGE BUILD SECTION  ////////////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////  MESSAGE BUILD SECTION  ////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     /**
      * @param messageParts Objects to be fused into a readable log message.
@@ -167,9 +168,9 @@ object EzLog {
     }
 
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    ////////////////  STACK TRACE SECTION  /////////////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////  STACK TRACE SECTION  /////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     private var callingFunctionStackIndex = ERROR_CODE
 
@@ -195,7 +196,7 @@ object EzLog {
         if (callingFunctionStackIndex != ERROR_CODE)
             return true
 
-        val thisClassName = this@EzLog.javaClass.name
+        val thisClassName = this@AzLog.javaClass.name
         elements.forEachIndexed { index, stackTraceElement ->
             if (thisClassName == stackTraceElement.className) {
                 callingFunctionStackIndex = index + 1

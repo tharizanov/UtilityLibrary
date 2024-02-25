@@ -84,11 +84,11 @@ fun View.hideKeyboard() {
         .hideSoftInputFromWindow(windowToken, 0)
 }
 
-fun EditText.onTextChange(listener: (String) -> Unit): TextWatcher =
+fun EditText.onTextChange(listener: (CharSequence) -> Unit): TextWatcher =
     object : TextWatcher {
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-            listener.invoke(s?.toString() ?: "")
+            listener.invoke(s ?: "")
         }
         override fun afterTextChanged(s: Editable?) {}
     }.also {

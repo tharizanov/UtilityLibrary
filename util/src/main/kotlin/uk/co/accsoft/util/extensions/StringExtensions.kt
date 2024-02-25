@@ -5,6 +5,9 @@ inline fun <T : CharSequence> T.ifNotEmpty(action: (T) -> Unit): T {
     return this
 }
 
+val Any.TAG: String
+    get() = this.javaClass.simpleName.takeLast(23)
+
 fun Any?.toReadableString(iterableSeparator: CharSequence = ", "): String =
     when (this) {
         is Iterable<*> -> iterableToString(this, iterableSeparator)
@@ -12,6 +15,9 @@ fun Any?.toReadableString(iterableSeparator: CharSequence = ", "): String =
         is Throwable -> throwableToString(this)
         else -> toString().ifEmpty { "_" }
     }
+
+
+//////////////////// Private functions ///////////////////////////
 
 private fun iterableToString(iterable: Iterable<*>, separator: CharSequence = ", "): String =
     iterable.joinToString(
@@ -33,9 +39,9 @@ private fun mapToString(map: Map<*,*>, separator: CharSequence = ", "): String =
 
 private fun throwableToString(throwable: Throwable): String =
     StringBuilder("\n").apply {
-        append(throwable::class.simpleName ?: "unknown Throwable")
+        append(throwable.javaClass.name)
         append(": ")
-        append(throwable.message)
+        throwable.message?.let { append(it) }
         for (ste in throwable.stackTrace) {
             append("\nat ")
             append(ste.className)
