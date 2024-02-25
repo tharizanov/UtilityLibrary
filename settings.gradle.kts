@@ -15,4 +15,5 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "Utility Library"
+include(":app")
 include(":util")
