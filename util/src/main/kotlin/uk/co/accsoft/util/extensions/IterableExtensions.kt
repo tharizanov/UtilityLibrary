@@ -9,7 +9,7 @@ inline fun <T> Iterable<T>.forEachDivided(
     betweenLoops: (index: Int, T) -> Unit,
     action: (index: Int, T) -> Unit
 ) = forEachIndexed { index, item ->
-    if (index > 0 && index < count()) {
+    if (index != 0) {
         betweenLoops(index, item)
     }
     action(index, item)

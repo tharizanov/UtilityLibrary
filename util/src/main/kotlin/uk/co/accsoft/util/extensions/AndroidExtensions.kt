@@ -12,7 +12,7 @@ import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
-import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
@@ -68,7 +68,7 @@ fun Context.showToast(message: CharSequence?, length: Int = Toast.LENGTH_SHORT) 
 
 fun RecyclerView.addLinearDividerDecoration(@DrawableRes drawableId: Int) {
     (layoutManager as? LinearLayoutManager)?.let { lm ->
-        AppCompatResources.getDrawable(context, drawableId)?.let { drawable ->
+        context.getDrawableCompat(drawableId)?.let { drawable ->
             DividerItemDecoration(context, lm.orientation).let { decoration ->
                 decoration.setDrawable(drawable)
                 addItemDecoration(decoration)
@@ -84,7 +84,7 @@ fun View.hideKeyboard() {
         .hideSoftInputFromWindow(windowToken, 0)
 }
 
-fun EditText.onTextChange(listener: (CharSequence) -> Unit): TextWatcher =
+fun TextView.onTextChange(listener: (CharSequence) -> Unit): TextWatcher =
     object : TextWatcher {
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {

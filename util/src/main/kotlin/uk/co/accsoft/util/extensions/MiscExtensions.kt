@@ -17,6 +17,3 @@ inline fun <T : Any> T?.ifNull(action: () -> Unit): T? {
     if (this == null) action()
     return this
 }
-
-fun <T : Any> T?.or(replacement: T?): T? =
-    this ?: replacement

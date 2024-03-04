@@ -41,7 +41,7 @@ private fun throwableToString(throwable: Throwable): String =
     StringBuilder("\n").apply {
         append(throwable.javaClass.name)
         append(": ")
-        throwable.message?.let { append(it) }
+        throwable.message?.ifNotEmpty { append(it) }
         for (ste in throwable.stackTrace) {
             append("\nat ")
             append(ste.className)
