@@ -65,7 +65,7 @@ publishing {
             groupId = "com.github.tharizanov"
             artifactId = getArtificatId()
             version = getVersionName()
-            artifact("$buildDir/outputs/aar/${getArtificatId()}-release.aar")
+            artifact("${layout.buildDirectory}/outputs/aar/${getArtificatId()}-release.aar")
         }
     }
 
