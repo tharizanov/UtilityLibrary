@@ -1,7 +1,6 @@
 *.iml
 .gradle
 /.gradle
-/gradle
 .idea
 /.idea
 .DS_Store
